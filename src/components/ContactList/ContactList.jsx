@@ -1,8 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  deleteContact,
-  selectContact,
-} from './../../Redux/contactsSlice';
+import { deleteContact, selectContact } from './../../Redux/contactsSlice';
+import { useEffect } from 'react';
 import { selectFilter } from './../../Redux/filterSlice';
 import css from './ContactList.module.css';
 
@@ -11,7 +9,6 @@ const ContactList = () => {
   const filter = useSelector(selectFilter);
 
   const dispatch = useDispatch();
-
 
   const handleDeleteContact = id => {
     dispatch(deleteContact(id));
@@ -27,6 +24,10 @@ const ContactList = () => {
   } else {
     contactsArray = contacts;
   }
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <div className={css.contacts}>
