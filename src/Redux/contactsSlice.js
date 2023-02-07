@@ -8,18 +8,9 @@ const ContactsInitialState = [
   { id: nanoid(), name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-const getLocalStorageContacts = () => {
-  const localStorageContacts = JSON.parse(localStorage.getItem('contacts'));
-  if (localStorageContacts) {
-    return localStorageContacts;
-  } else {
-    return ContactsInitialState;
-  }
-};
-
 export const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: getLocalStorageContacts(),
+  initialState: ContactsInitialState,
   reducers: {
     addContact: (state, action) => {
       state.push(action.payload);
@@ -35,7 +26,5 @@ export const contactsSlice = createSlice({
 });
 
 export const { addContact, deleteContact, setContacts } = contactsSlice.actions;
-
-export const selectContact = state => state.contacts;
 
 export const contactsReducer = contactsSlice.reducer;

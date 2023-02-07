@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, selectContact } from './../../Redux/contactsSlice';
-import { useEffect } from 'react';
-import { selectFilter } from './../../Redux/filterSlice';
+import { deleteContact } from './../../Redux/contactsSlice';
+import { selectFilter, selectContact } from './../../Redux/selectors';
 import css from './ContactList.module.css';
 
 const ContactList = () => {
@@ -14,25 +13,14 @@ const ContactList = () => {
     dispatch(deleteContact(id));
   };
 
-  let contactsArray;
   const filteredContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.filter.toLowerCase())
   );
 
-  if (filteredContacts !== '') {
-    contactsArray = filteredContacts;
-  } else {
-    contactsArray = contacts;
-  }
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
   return (
     <div className={css.contacts}>
       <ul className={css.list}>
-        {contactsArray.map(contact => {
+        {filteredContacts.map(contact => {
           return (
             <li className={css.li} key={contact.id}>
               <div>

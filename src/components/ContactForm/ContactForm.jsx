@@ -1,7 +1,8 @@
 import css from './ContactForm.module.css';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, selectContact } from './../../Redux/contactsSlice';
+import { addContact } from './../../Redux/contactsSlice';
+import { selectContact } from './../../Redux/selectors'
 
 const ContactForm = () => {
   const contacts = useSelector(selectContact);
@@ -21,19 +22,17 @@ const ContactForm = () => {
         contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
       )
     ) {
-      event.target.name.value = '';
-      event.target.number.value = '';
+      event.target.reset();
       return alert(`${newContact.name} "is already in contacts"`);
     } else {
       dispatch(addContact(newContact));
 
-      event.target.name.value = '';
-      event.target.number.value = '';
+      event.target.reset();
     }
   };
 
   return (
-    <form className={css.form} onSubmit={event => handleSubmit(event)}>
+    <form className={css.form} onSubmit={handleSubmit}>
       <label>
         <p className={css.label}>Name</p>
         <input
